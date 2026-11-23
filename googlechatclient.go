@@ -330,6 +330,10 @@ func (c *Client) Login(ctx context.Context) error {
 		c.runCookieRotation(loginCtx)
 	})
 
+	c.wg.Go(func() {
+		c.maintainPresence(loginCtx)
+	})
+
 	if !c.DisableStream {
 		c.startWebChannel(loginCtx)
 	}
